@@ -1,6 +1,16 @@
 import telebot
 from telebot import types
 
+from data import db_session
+
+
+def main():
+    db_session.global_init("db/EzEng.db")
+
+
+if __name__ == '__main__':
+    main()
+
 TOKEN = '6150776858:AAFgMzCcTuLUDnEoO8RNS2HMpNkH5xaf22Q'
 
 bot = telebot.TeleBot(TOKEN)
