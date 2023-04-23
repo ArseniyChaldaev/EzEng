@@ -169,6 +169,7 @@ def send_words_job():
     schedules = db.get_schedules_by_hour(hour)
     for sch in schedules:
         word = db.get_word(sch.user_id)
+        db.save_user_word(sch.user_id, word.id)
 
         translations = translate_api.translate(word)
         try:
