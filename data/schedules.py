@@ -1,5 +1,6 @@
 import datetime
 import sqlalchemy
+from sqlalchemy import orm
 
 from .db_session import SqlAlchemyBase
 
@@ -14,3 +15,5 @@ class Schedule(SqlAlchemyBase):
     hour = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
+
+    user = orm.relationship("User", back_populates="schedules")
