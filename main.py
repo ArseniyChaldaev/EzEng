@@ -39,8 +39,8 @@ def start(message):
 
 def show_main_menu(message):
     markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    btn_give_task = types.KeyboardButton("📚give me a task")
-    btn_time_change = types.KeyboardButton("⌚️change the generation time")
+    btn_give_task = types.KeyboardButton("📚Give me a task")
+    btn_time_change = types.KeyboardButton("⌚️Change the generation time")
     markup.add(btn_give_task, btn_time_change)
     bot.set_state(message.from_user.id, BotStates.main_menu, message.chat.id)
     bot.send_message(message.chat.id, 'Hi, {0.first_name}! Choose what you want to do:'.format(message.from_user),
@@ -90,8 +90,10 @@ def task_menu_handler(message):
 
 def show_difficult_menu(message):
     markup = types.ReplyKeyboardMarkup(row_width=3, resize_keyboard=True)
+    buttons = []
     for difficulty in DIFFICULTIES.keys():
-        markup.add(types.KeyboardButton(difficulty))
+        buttons.append(types.KeyboardButton(difficulty))
+    markup.add(*buttons)
     markup.add(types.KeyboardButton('⬅️Back'))
     bot.set_state(message.from_user.id, BotStates.task_difficult_menu, message.chat.id)
     bot.send_message(message.chat.id,
@@ -139,34 +141,23 @@ def schedule_menu_handler(message):
 
 def show_schedule_menu(message):
     markup = types.ReplyKeyboardMarkup(row_width=4, resize_keyboard=True)
-    btn_time_type_10 = types.KeyboardButton('🕛10:00')
-    btn_time_type_11 = types.KeyboardButton('🕚11:00')
-    btn_time_type_12 = types.KeyboardButton('🕛12:00')
-    btn_time_type_13 = types.KeyboardButton('🕐13:00')
-    btn_time_type_14 = types.KeyboardButton('🕑14:00')
-    btn_time_type_15 = types.KeyboardButton('🕒15:00')
-    btn_time_type_16 = types.KeyboardButton('🕓16:00')
-    btn_time_type_17 = types.KeyboardButton('🕓17:00')
-    btn_time_type_18 = types.KeyboardButton('🕕18:00')
-    btn_time_type_19 = types.KeyboardButton('🕖19:00')
-    btn_time_type_20 = types.KeyboardButton('🕗20:00')
-    btn_time_type_21 = types.KeyboardButton('🕘21:00')
-    btn_back = types.KeyboardButton('⬅️Back')
-    markup.add(
-        btn_time_type_10, btn_time_type_11, btn_time_type_12, btn_time_type_13, btn_time_type_14, btn_time_type_15,
-        btn_time_type_16, btn_time_type_17, btn_time_type_18, btn_time_type_19, btn_time_type_20, btn_time_type_21,
-        btn_back)
+    buttons = []
+    for time in TIMES.keys():
+        buttons.append(types.KeyboardButton(time))
+    markup.add(*buttons)
+    markup.add(types.KeyboardButton('⬅️Back'))
     bot.set_state(message.from_user.id, BotStates.schedule_set, message.chat.id)
     bot.send_message(message.chat.id,
                      'Choose the right time:'.format(message.from_user),
                      reply_markup=markup)
 
 
-@bot.message_handler(state=BotStates.schedule_menu)
+@bot.message_handler(state=BotStates.schedule_set)
 def schedule_set_handler(message):
     if message.text != '⬅️Back':
         if message.text in TIMES.keys():
             db.save_schedule(message.chat.id, TIMES[message.text])
+            bot.send_message(message.chat.id, "Time is set")
         else:
             bot.send_message(message.chat.id, 'Wrong time')
             return
@@ -196,7 +187,7 @@ def start_scheduler():
 
 def main():
     print('Бот стартовал')
-    # Thread(target=start_scheduler, args=()).start()
+    Thread(target=start_scheduler, args=()).start()
     bot.add_custom_filter(custom_filters.StateFilter(bot))
     bot.add_custom_filter(custom_filters.IsDigitFilter())
     bot.polling(none_stop=True)
