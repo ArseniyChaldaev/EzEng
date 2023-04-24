@@ -55,18 +55,6 @@ def main_menu_handler(message):
         show_schedule_menu(message)
 
 
-def show_schedule_menu(message):
-    markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    btn_time_type_1 = types.KeyboardButton('🕛10:00')
-    btn_time_type_2 = types.KeyboardButton('🕗20:00')
-    btn_back = types.KeyboardButton('⬅️Back')
-    markup.add(btn_time_type_1, btn_time_type_2, btn_back)
-    bot.set_state(message.from_user.id, BotStates.schedule_menu, message.chat.id)
-    bot.send_message(message.chat.id,
-                     'Choose the right time:'.format(message.from_user),
-                     reply_markup=markup)
-
-
 def show_task_menu(message):
     markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
     for theme in THEMES.keys():
