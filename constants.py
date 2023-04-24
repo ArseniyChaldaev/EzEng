@@ -1,9 +1,9 @@
-TELEGRAM_TOKEN = '<INPUT_TELEGRAM_TOKEN>'
+TELEGRAM_TOKEN = '6150776858:AAH17KSkyTT-CHRZQd1HxgNwdPV4RRVmFbw'
 
 DB_PATH = 'db/EzEng.db'
 
 RAPID_API_HOST = 'google-translate1.p.rapidapi.com'
-RAPID_API_KEY = '<INPUT_RAPID_KEY>'
+RAPID_API_KEY = '0d2b7ce1f6msh70fb22883c6adf4p1d50a9jsncd5b8871f049'
 
 THEMES = {
     '📕Translation': 1,

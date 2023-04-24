@@ -49,9 +49,9 @@ def show_main_menu(message):
 
 @bot.message_handler(state=BotStates.main_menu)
 def main_menu_handler(message):
-    if message.text == '📚give me a task':
+    if message.text == '📚Give me a task':
         show_task_menu(message)
-    elif message.text == '⌚️change the generation time':
+    elif message.text == '⌚️Change the generation time':
         show_schedule_menu(message)
 
 
@@ -133,7 +133,7 @@ def task_check_answer_handler(message):
 
 @bot.message_handler(state=BotStates.schedule_menu)
 def schedule_menu_handler(message):
-    if message.text == '⌚️change the generation time':
+    if message.text == '⌚️Change the generation time':
         show_schedule_menu(message)
     elif message.text == '⬅️Back':
         start(message)
